@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Happy Happy Student!!! </title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.0/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.0/dist/flowbite.min.js"></script>
+
+    </head>
+
+    <body >
+        <div>
+            <!-- Whats Next Component -->
+
+            <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+                <h2 class="text-2xl font-semibold mb-4">What's next</h2>
+                <input 
+                type="text" 
+                placeholder="Enter goal here"
+                class="w-full border rounded-lg px-4 py-3 mb-4 focus:outline-none"
+                />
+
+    
+                <input type="number" id="numberInput" value="0" class="w-40 border rounded-lg px-4 py-3 mb-4 focus:outline-none">
+               
+                            
+                <button 
+                class="w-full border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition">
+                Start new session
+                </button>
+            </div>
+  
+            <!-- Prev Session -->
+            <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+                <h2 class="text-2xl font-semibold mb-4">Prev session</h2>
+              
+                <!-- task list -->
+                <div class="space-y-3 max-h-48 overflow-y-auto pr-1">
+              
+                  <!-- tasks -->
+                  <div class="flex justify-between items-center border rounded-lg px-4 py-3">
+                    <p>Task name</p>
+                    <p class="font-medium">2 hrs</p>
+                  </div>
+              
+                  <div class="flex justify-between items-center border rounded-lg px-4 py-3">
+                    <p>Task name</p>
+                    <p class="font-medium">1.5 hrs</p>
+                  </div>
+              
+                  <div class="flex justify-between items-center border rounded-lg px-4 py-3">
+                    <p>Task name</p>
+                    <p class="font-medium">3 hrs</p>
+                  </div>
+              
+                </div>
+
+
+
+            <!-- Talk with Study Buddy  -->
+            <button class="mt-4 w-12 h-12 border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition">
+            Talk with study buddy
+            </button>
+           
+            <!-- Study Stats  -->
+
+        <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+            <h2 class="text-xl font-semibold mb-4">Study stats</h2>
+        
+            <div class="flex items-center gap-6">
+            
+            <!-- Circular Progress (placeholder) -->
+            <div class="relative w-20 h-20">
+                <div class="w-full h-full rounded-full border-4 border-gray-200"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-lg font-semibold">
+                75%
+                </div>
+            </div>
+        
+            <!-- Bar graph placeholder -->
+            <div class="flex items-end gap-2 h-16">
+                <div class="w-3 h-3 bg-gray-800 rounded"></div>
+                <div class="w-3 h-5 bg-gray-800 rounded"></div>
+                <div class="w-3 h-8 bg-gray-800 rounded"></div>
+                <div class="w-3 h-12 bg-gray-800 rounded"></div>
+                <div class="w-3 h-16 bg-gray-800 rounded"></div>
+            </div>
+        
+            </div>
+        </div>
+  
+            
+
+            <!-- Study Metrics  -->
+            <div>
+                <label class="block mb-2.5 text-sm font-medium text-heading absolute bottom-0 right-0 m-4">Study Metrics</label>
+            </div>
+                    
+        </div>
+    </body>
+</html>

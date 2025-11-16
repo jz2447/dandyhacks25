@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+
 <div class="max-w-xl mx-auto bg-white shadow p-6 rounded-xl">
     <h1 class="text-2xl font-bold mb-4">Ask Gemini</h1>
 
@@ -9,17 +10,30 @@
           hx-swap="innerHTML"
           class="space-y-4">
 
-        <input name="text"
-               class="w-full border p-2 rounded"
-               placeholder="Enter your text...">
+            <!-- Whats Next Component -->
 
-        <button class="px-4 py-2 bg-blue-600 text-white rounded">
-            Submit
-        </button>
+            <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+                <h2 class="text-2xl font-semibold mb-4">What's next</h2>
+                <input 
+                type="text" 
+                placeholder="Enter goal here"
+                class="w-full border rounded-lg px-4 py-3 mb-4 focus:outline-none"
+                />
+
+    
+                <input type="number" id="numberInput" value="0" class="w-40 border rounded-lg px-4 py-3 mb-4 focus:outline-none">
+               
+                            
+                <button 
+                class="w-full border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition">
+                Start new session
+                </button>
+            </div>
 
     </form>
 
     <div id="response" class="mt-4 text-lg"></div>
+
 </div>
 
 {% endblock %}
