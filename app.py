@@ -101,7 +101,8 @@ def ask_gemini():
     # update the agent
     # conversation.send_contextual_update(f"The user's goal is to {user_text}")
 
-    duration = 3
+    duration = request.form.get("numberInput")
+    print("duration: " + duration)
     check_focus(duration)
     
 
