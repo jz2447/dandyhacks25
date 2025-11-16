@@ -1,0 +1,9 @@
+container {
+    display: flex;
+    width: 100vw; /* Full screen width */
+}
+
+child {
+    flex: 1; /* Each child takes up equal space */
+    border: 1px solid black; /* Optional for visualization */
+}

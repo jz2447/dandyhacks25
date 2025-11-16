@@ -69,6 +69,18 @@ GOAL = ""
 def home():
     return render_template("index.html")
 
+@app.route("/component/prevSession")
+def prevSession():
+    return render_template("prevSession.html")
+
+@app.route("/component/studyMetrics")
+def studyMetrics():
+    return render_template("studyMetrics.html")
+
+@app.route("/component/studyStats")
+def studyStats():
+    return render_template("studyStats.html")
+
 # --- Example HTMX endpoint ---
 @app.route("/api/ask", methods=["POST"])
 def ask_gemini():
