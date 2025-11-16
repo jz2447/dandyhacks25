@@ -124,7 +124,7 @@ def check_focus(duration):
         image = Image.open("screen.png")
         response = gemini_session.send_message(
             [
-                "Analyze this screenshot and return ONLY valid JSON with this format:\n\n"
+                "Analyze this screen grab and return ONLY valid JSON with this format:\n\n"
                 "{\n"
                 "  \"on_topic\": true/false,\n"
                 "  \"reason\": \"short explanation\",\n"
