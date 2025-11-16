@@ -1,39 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container">
+    <div class="child">
+        <div class="max-w-xl mx-auto bg-white shadow p-6 rounded-xl">
+            <h1 class="text-2xl font-bold mb-4">What is your study goals</h1>
 
-<div class="max-w-xl mx-auto bg-white shadow p-6 rounded-xl">
-    <h1 class="text-2xl font-bold mb-4">What is your study goals</h1>
+            <form hx-post="/api/ask"
+                hx-target="#response"
+                hx-swap="innerHTML"
+                class="space-y-4">
 
-    <form hx-post="/api/ask"
-          hx-target="#response"
-          hx-swap="innerHTML"
-          class="space-y-4">
+                    <!-- Whats Next Component -->
 
-            <!-- Whats Next Component -->
+                    <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+                        <h2 class="text-2xl font-semibold mb-4">What's next</h2>
+                        <input 
+                        type="text"
+                        name="goal" 
+                        placeholder="Enter goal here"
+                        class="w-full border rounded-lg px-4 py-3 mb-4 focus:outline-none"
+                        />
 
-            <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
-                <h2 class="text-2xl font-semibold mb-4">What's next</h2>
-                <input 
-                type="text" 
-                placeholder="Enter goal here"
-                class="w-full border rounded-lg px-4 py-3 mb-4 focus:outline-none"
-                />
+            
+                        <input type="number" name="duration" id="numberInput" value="0" class="w-40 border rounded-lg px-4 py-3 mb-4 focus:outline-none">
+                    
+                                    
+                        <button 
+                        class="w-full border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition">
+                        Start new session
+                        </button>
+                    </div>
 
-    
-                <input type="number" id="numberInput" value="0" class="w-40 border rounded-lg px-4 py-3 mb-4 focus:outline-none">
-               
-                            
-                <button 
-                class="w-full border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition">
-                Start new session
-                </button>
-            </div>
+            </form>
 
-    </form>
+            <div id="response" class="mt-4 text-lg"></div>
 
-    <div id="response" class="mt-4 text-lg"></div>
+        </div>
 
+        <div id="prevSession" 
+            hx-get="/component/prevSession" 
+            hx-trigger="load once" 
+            hx-swap="innerHTML"
+            class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-xl border border-dashed border-gray-300 text-center text-gray-500 hover:border-blue-400 transition cursor-pointer">
+            
+            <p class="animate-pulse">Loading "prevSession" component</p>
+            
+        </div>
+    </div>
+    <div class="child">
+        <div id="studyMetrics" 
+            hx-get="/component/studyMetrics" 
+            hx-trigger="load once" 
+            hx-swap="innerHTML"
+            class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-xl border border-dashed border-gray-300 text-center text-gray-500 hover:border-blue-400 transition cursor-pointer">
+            
+            <p class="animate-pulse">Loading "studyMetrics" Component...</p>
+            
+        </div>
+        <div id="studyStats" 
+            hx-get="/component/studyStats" 
+            hx-trigger="load once" 
+            hx-swap="innerHTML"
+            class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-xl border border-dashed border-gray-300 text-center text-gray-500 hover:border-blue-400 transition cursor-pointer">
+            
+            <p class="animate-pulse">Loading "studyStats" Component...</p>
+            
+        </div>
+    </div>
 </div>
+
 
 {% endblock %}

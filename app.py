@@ -69,6 +69,18 @@ GOAL = ""
 def home():
     return render_template("index.html")
 
+@app.route("/component/prevSession")
+def prevSession():
+    return render_template("prevSession.html")
+
+@app.route("/component/studyMetrics")
+def studyMetrics():
+    return render_template("studyMetrics.html")
+
+@app.route("/component/studyStats")
+def studyStats():
+    return render_template("studyStats.html")
+
 # --- Example HTMX endpoint ---
 @app.route("/api/ask", methods=["POST"])
 def ask_gemini():
@@ -101,7 +113,8 @@ def ask_gemini():
     # update the agent
     # conversation.send_contextual_update(f"The user's goal is to {user_text}")
 
-    duration = 3
+    duration = request.form.get("numberInput")
+    print("duration: " + duration)
     check_focus(duration)
     
 
@@ -123,7 +136,7 @@ def check_focus(duration):
         image = Image.open("screen.png")
         response = gemini_session.send_message(
             [
-                "Analyze this screenshot and return ONLY valid JSON with this format:\n\n"
+                "Analyze this screen grab and return ONLY valid JSON with this format:\n\n"
                 "{\n"
                 "  \"on_topic\": true/false,\n"
                 "  \"reason\": \"short explanation\",\n"
