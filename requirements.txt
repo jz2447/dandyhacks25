@@ -7,3 +7,4 @@ pip install elevenlabs
 pip install "elevenlabs[pyaudio]"
 pip install pydub
 pip install playsound3
+pip install fpdf2

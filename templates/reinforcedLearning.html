@@ -1,0 +1,9 @@
+<div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+    <button class="text-xl font-semibold mb-4">Session Notes</button>
+    <button 
+    class="w-full border rounded-lg px-4 py-3 font-medium hover:bg-gray-50 transition"
+    hx-post="/download/notes-pdf"  
+    hx-swap="innerHTML">get summary report</button>
+    <div id="response" class="mt-4 text-lg"></div>
+ 
+</div>

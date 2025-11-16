@@ -1,6 +1,6 @@
 import json
 import re
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, Response, render_template, request, jsonify, send_file
 import os
 import httpx
 from dotenv import load_dotenv
@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 import time
 import os
 import signal
+import threading
 
 from elevenlabs.client import ElevenLabs
 from elevenlabs.conversational_ai.conversation import Conversation
@@ -21,7 +22,9 @@ from typing import IO
 from io import BytesIO
 from elevenlabs import VoiceSettings
 from playsound3 import playsound # <<< Use playsound3
+from elevenlabs.play import play
 
+from fpdf import FPDF
 
 load_dotenv()
 
@@ -67,7 +70,8 @@ GOAL = ""
 # --- Home Page ---
 @app.route("/")
 def home():
-    return render_template("index.html")
+    agent_id = os.getenv("AGENT_ID")
+    return render_template("index.html", agent_id=agent_id)
 
 @app.route("/component/prevSession")
 def prevSession():
@@ -81,10 +85,50 @@ def studyMetrics():
 def studyStats():
     return render_template("studyStats.html")
 
+@app.route("/component/reinforcedLearning")
+def reinforcedLearning():
+    return render_template("reinforcedLearning.html")
+
+# --- Download Endpoint ---
+@app.route("/download/notes-pdf", methods=["POST"])
+def download_session_notes():
+    with open('study_summary.txt', 'r') as file:
+        content = file.read()
+        print(content)
+    final_sum = gemini_session.send_message(
+            
+            "Analyze this list of topics and return a report that goes into detail on these topics in nice html: " + content
+            
+        )
+    
+    file = open("study_summary.txt", "w")
+    file.write(final_sum.text)
+    file.close()
+    text = final_sum.text
+
+    cleaned = re.sub(r"```(?:html)?", "", text).strip()
+    cleaned = cleaned.replace("```", "").strip()
+
+    return cleaned
+
+def handle_music_playback(user_text, music_prompt):
+    """Generates and plays the music track in a separate thread."""
+    try:
+        track = elevenLabs.music.compose(
+            prompt=f"Create me a study track for this study goal: {user_text} with these vibes: {music_prompt}",
+            music_length_ms=300000,
+        )
+        print("playing music")
+        # IMPORTANT: Ensure 'play' itself is non-blocking or handles its own thread/process
+        play(track) 
+    except Exception as e:
+        print(f"Error during music playback: {e}")
+
 # --- Example HTMX endpoint ---
 @app.route("/api/ask", methods=["POST"])
 def ask_gemini():
-    user_text = request.form.get("text")
+    user_text = request.form.get("goal")
+    music = request.form.get("music")
     global GOAL
     GOAL = user_text
 
@@ -110,16 +154,25 @@ def ask_gemini():
 
     print(response.text)
 
+    if music:
+        music_thread = threading.Thread(
+            target=handle_music_playback,
+            args=(user_text, music)
+        )
+        music_thread.start()
+
     # update the agent
     # conversation.send_contextual_update(f"The user's goal is to {user_text}")
 
-    duration = request.form.get("numberInput")
+    duration = request.form.get("duration")
     print("duration: " + duration)
-    check_focus(duration)
+    check_focus(int(duration))
     
-
-    return "New Session Started" #jsonify({"reply": response_text.text})
-
+    response = Response("New Session Started")
+    # 'clearForm' is a custom event name you choose
+    response.headers["HX-Trigger"] = "clearForm" 
+    
+    return response
 
 def capture_screen(path="screen.png"):
 
@@ -167,6 +220,8 @@ def check_focus(duration):
                 + "\n".join(["• " + t for t in result["tips"]])
                 + "get back to work!!"
             )
+
+            generate_report(image)
 
             # ElevenLabs TTS
             audio = elevenLabs.text_to_speech.convert(
@@ -223,6 +278,43 @@ def check_focus(duration):
         # Wait a few seconds between checks
         time.sleep(5)
 
+    print("Study session over")
+    
+    
+
+def convert_To_PDF():
+    pdf = FPDF()
+
+    pdf.add_page()
+    pdf.set_font("Courier", size=10)
+    pdf.cell(200, 10, txt="Session Notes Report", ln=1, align="C")
+    global GOAL
+    pdf.cell(200, 10, txt=f"Study Goal: {GOAL}", ln=1)
+    pdf.ln(5) # New line space
+    input_file_path = "study_summary.txt"
+    try:
+        # Use 'with open' for safe file handling and specify encoding (UTF-8 recommended)
+        with open(input_file_path, "r", encoding="utf-8") as f:
+            # Use multi_cell to handle line wrapping automatically
+            # w=0 makes the cell extend to the right margin
+            # h=5 is the line height in the current unit (mm by default)
+            # txt=f.read() reads the entire file content as a single string
+            pdf.multi_cell(w=0, h=5, txt=f.read())
+
+    except FileNotFoundError:
+        print(f"Error: Input file '{input_file_path}' not found.")
+        return
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return
+
+    # output_file_path = "study_summary.pdf"
+    # pdf.output(output_file_path)
+    # print(f"Successfully converted '{input_file_path}' to '{output_file_path}'")
+    # Use BytesIO to capture the output in memory instead of saving to disk
+    pdf_output = pdf.output(dest='S') # 'S' means return as a string
+    return BytesIO(pdf_output)
+
 def extract_json(text):
     """
     Removes code fences and extracts the first valid JSON object.
@@ -240,6 +332,20 @@ def extract_json(text):
         raise ValueError("No JSON found in: " + text)
 
     return json.loads(match.group())
+
+def generate_report(image):
+    response = gemini_session.send_message(
+            [
+                "Analyze this screen grab and return a list of the main topics being researched",
+
+                image
+            ]
+        )
+    
+    with open("study_summary.txt", "a") as file:
+        file.write(response.text)
+    
+
 
 
 if __name__ == "__main__":
