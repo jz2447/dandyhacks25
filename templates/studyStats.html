@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="flex flex-col items-end justify-start p-0 gap-4 absolute top-0 right-0">
+    <div class="p-6 bg-white rounded-xl shadow-sm border w-full max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Study stats</h2>
+    
+        <div class="flex items-center gap-6">
+        
+        <!-- Progress (basic a pic) -->
+        <div class="relative w-20 h-20">
+            <div class="w-full h-full rounded-full border-4 border-gray-200"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-lg font-semibold">
+            75%
+            </div>
+        </div>
+    
+        <!-- bar graph  -->
+        <div class="flex items-end gap-2 h-16">
+            <div class="w-3 h-3 bg-gray-800 rounded"></div>
+            <div class="w-3 h-5 bg-gray-800 rounded"></div>
+            <div class="w-3 h-8 bg-gray-800 rounded"></div>
+            <div class="w-3 h-12 bg-gray-800 rounded"></div>
+            <div class="w-3 h-16 bg-gray-800 rounded"></div>
+        </div>
+    
+        </div>
+    </div>
