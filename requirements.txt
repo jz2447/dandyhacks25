@@ -1,2 +1,5 @@
 pip install -q -U google-genai
 pip install mss
+pip install dotenv
+pip install flask sqlalchemy python-dotenv httpx
+pip install supabase
