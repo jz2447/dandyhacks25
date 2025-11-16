@@ -3,3 +3,7 @@ pip install mss
 pip install dotenv
 pip install flask sqlalchemy python-dotenv httpx
 pip install supabase
+pip install elevenlabs
+pip install "elevenlabs[pyaudio]"
+pip install pydub
+pip install playsound3
