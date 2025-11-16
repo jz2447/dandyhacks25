@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
-    <div class="child">
+<div class="container grid h-56 grid-cols-2 content-around gap-4">
+    <div class="child gap-4">
         <div class="max-w-xl mx-auto bg-white shadow p-6 rounded-xl">
             <h1 class="text-2xl font-bold mb-4">What is your study goals</h1>
 
@@ -48,16 +48,7 @@
             
         </div>
     </div>
-    <div class="child">
-        <div id="studyMetrics" 
-            hx-get="/component/studyMetrics" 
-            hx-trigger="load once" 
-            hx-swap="innerHTML"
-            class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-xl border border-dashed border-gray-300 text-center text-gray-500 hover:border-blue-400 transition cursor-pointer">
-            
-            <p class="animate-pulse">Loading "studyMetrics" Component...</p>
-            
-        </div>
+    <div class="child gap-4">
         <div id="studyStats" 
             hx-get="/component/studyStats" 
             hx-trigger="load once" 
@@ -67,6 +58,17 @@
             <p class="animate-pulse">Loading "studyStats" Component...</p>
             
         </div>
+
+        <div id="studyMetrics" 
+            hx-get="/component/studyMetrics" 
+            hx-trigger="load once" 
+            hx-swap="innerHTML"
+            class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-xl border border-dashed border-gray-300 text-center text-gray-500 hover:border-blue-400 transition cursor-pointer">
+            
+            <p class="animate-pulse">Loading "studyMetrics" Component...</p>
+            
+        </div>
+        
     </div>
 </div>
 
